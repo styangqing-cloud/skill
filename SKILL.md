@@ -1,3 +1,13 @@
+---
+name: employee-interview-analyzer
+description: 员工访谈分析技能 - 基于访谈内容进行深度分析，支持个体分析、组织分析和招聘面试评估三种模式
+author: tommyyang@tencent
+github: https://github.com/styangqing-cloud
+license: MIT
+last_updated: 2026-03-15
+version: 1.1.0
+---
+
 # employee-interview-analyzer
 
 员工访谈分析技能 - 基于访谈内容进行深度分析，支持**个体分析**和**组织分析**两种模式。
