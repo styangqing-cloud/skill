@@ -150,6 +150,25 @@ class ReportGenerator:
         lines.append("---")
         lines.append("")
         
+        # ⭐⭐ Step 11: 结论文章（强制生成，不可跳过）
+        lines.append("## 📝 访谈结论文章")
+        lines.append("")
+        if hasattr(result, 'conclusion_article') and result.conclusion_article:
+            lines.append(result.conclusion_article)
+        else:
+            lines.append("⚠️ **结论文章缺失！请检查 Step 11 是否正确执行。**")
+            lines.append("")
+            lines.append("> 结论文章为强制步骤，必须包含以下5部分：")
+            lines.append("> 1. 访谈背景（约150字）")
+            lines.append("> 2. 核心发现（约400字）")
+            lines.append("> 3. 深度分析（约300字）")
+            lines.append("> 4. 建议与展望（约250字）")
+            lines.append("> 5. 总结（约100字）")
+        lines.append("")
+        
+        lines.append("---")
+        lines.append("")
+        
         # 行动建议
         lines.append("## 📋 行动建议")
         lines.append("")
@@ -167,9 +186,23 @@ class ReportGenerator:
         
         lines.append("---")
         lines.append("")
-        lines.append("*本报告由 employee-interview-analyzer skill 自动生成*")
+        
+        # ⭐⭐⭐ Step 13: 腾讯文档生成提示
+        lines.append("## 📄 腾讯文档")
         lines.append("")
-        lines.append(f"**技能版本：** v1.0.0  |  **生产者：** tommyyang@tencent")
+        if hasattr(result, 'tencent_doc_url') and result.tencent_doc_url:
+            lines.append(f"✅ 报告已同步至腾讯文档：[点击查看]({result.tencent_doc_url})")
+        else:
+            lines.append("⚠️ **腾讯文档尚未生成。请确保 Step 13 正确执行。**")
+            lines.append("")
+            lines.append("> 使用 `tencent-docs` skill 将本报告内容创建为在线腾讯文档。")
+        lines.append("")
+        
+        lines.append("---")
+        lines.append("")
+        lines.append("*本报告由 employee-interview-analyzer skill v2.5.0 自动生成*")
+        lines.append("")
+        lines.append(f"**技能版本：** v2.5.0  |  **生产者：** tommyyang@tencent")
         
         return "\n".join(lines)
     
@@ -320,6 +353,25 @@ class ReportGenerator:
         lines.append("---")
         lines.append("")
         
+        # ⭐⭐ Step 11: 结论文章（强制生成，不可跳过）
+        lines.append("## 📝 组织诊断结论文章")
+        lines.append("")
+        if hasattr(result, 'conclusion_article') and result.conclusion_article:
+            lines.append(result.conclusion_article)
+        else:
+            lines.append("⚠️ **结论文章缺失！请检查 Step 11 是否正确执行。**")
+            lines.append("")
+            lines.append("> 组织诊断结论文章为强制步骤，必须包含以下5部分：")
+            lines.append("> 1. 诊断背景（约200字）")
+            lines.append("> 2. 核心发现——杨三角三维度总结（约500字）")
+            lines.append("> 3. 系统性问题深度分析（约400字）")
+            lines.append("> 4. 干预建议与战略对齐展望（约300字）")
+            lines.append("> 5. 总结（约150字）")
+        lines.append("")
+        
+        lines.append("---")
+        lines.append("")
+        
         # 附录
         lines.append("## 📎 附录")
         lines.append("")
@@ -327,9 +379,25 @@ class ReportGenerator:
         lines.append(f"- 分析框架：杨三角理论（员工思维 × 员工能力 × 员工治理）")
         lines.append(f"- 模式识别阈值：≥70% 员工提及 = 系统问题")
         lines.append("")
-        lines.append("*本报告由 employee-interview-analyzer skill 自动生成*")
+        lines.append("---")
         lines.append("")
-        lines.append(f"**技能版本：** v1.0.0  |  **生产者：** tommyyang@tencent")
+        
+        # ⭐⭐⭐ Step 13: 腾讯文档生成提示
+        lines.append("## 📄 腾讯文档")
+        lines.append("")
+        if hasattr(result, 'tencent_doc_url') and result.tencent_doc_url:
+            lines.append(f"✅ 报告已同步至腾讯文档：[点击查看]({result.tencent_doc_url})")
+        else:
+            lines.append("⚠️ **腾讯文档尚未生成。请确保 Step 13 正确执行。**")
+            lines.append("")
+            lines.append("> 使用 `tencent-docs` skill 将本报告内容创建为在线腾讯文档。")
+        lines.append("")
+        
+        lines.append("---")
+        lines.append("")
+        lines.append("*本报告由 employee-interview-analyzer skill v2.5.0 自动生成*")
+        lines.append("")
+        lines.append(f"**技能版本：** v2.5.0  |  **生产者：** tommyyang@tencent")
         
         return "\n".join(lines)
     

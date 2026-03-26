@@ -42,6 +42,8 @@ class IndividualResult(AnalysisResult):
     risks: List[Dict[str, Any]]
     profile_updates: Dict[str, Any]
     recommendations: List[Dict[str, Any]]
+    conclusion_article: Optional[str] = None  # ⭐⭐ Step 11: 结论文章（v2.5.0 新增）
+    tencent_doc_url: Optional[str] = None     # ⭐⭐⭐ Step 13: 腾讯文档链接（v2.5.0 新增）
 
 
 @dataclass
@@ -58,6 +60,8 @@ class OrganizationResult(AnalysisResult):
     patterns: Dict[str, List[Dict[str, Any]]]
     interventions: List[Dict[str, Any]]
     individual_results: List[IndividualResult]  # 包含个体分析结果
+    conclusion_article: Optional[str] = None  # ⭐⭐ Step 11: 结论文章（v2.5.0 新增）
+    tencent_doc_url: Optional[str] = None     # ⭐⭐⭐ Step 13: 腾讯文档链接（v2.5.0 新增）
 
 
 class InterviewAnalyzer:
@@ -157,7 +161,8 @@ class InterviewAnalyzer:
             insights=result.get("insights", []),
             risks=result.get("risks", []),
             profile_updates=result.get("profile_updates", {}),
-            recommendations=result.get("recommendations", [])
+            recommendations=result.get("recommendations", []),
+            conclusion_article=result.get("conclusion_article", None),  # ⭐⭐ Step 11
         )
     
     def analyze_organization(
@@ -198,7 +203,8 @@ class InterviewAnalyzer:
                 insights=ind_result.get("insights", []),
                 risks=ind_result.get("risks", []),
                 profile_updates=ind_result.get("profile_updates", {}),
-                recommendations=ind_result.get("recommendations", [])
+                recommendations=ind_result.get("recommendations", []),
+                conclusion_article=ind_result.get("conclusion_article", None),  # ⭐⭐ Step 11
             ))
         
         # Step 2: 进行组织分析
@@ -226,7 +232,8 @@ class InterviewAnalyzer:
         self,
         result: Union[IndividualResult, OrganizationResult],
         format: str = "markdown",
-        output_path: Optional[str] = None
+        output_path: Optional[str] = None,
+        create_tencent_doc: bool = True
     ) -> str:
         """
         生成报告
@@ -235,6 +242,7 @@ class InterviewAnalyzer:
             result: 分析结果
             format: 输出格式
             output_path: 输出路径
+            create_tencent_doc: 是否创建腾讯文档（⭐⭐⭐ Step 13，默认开启）
             
         Returns:
             str: 报告内容
@@ -246,7 +254,26 @@ class InterviewAnalyzer:
             with open(output_path, 'w', encoding='utf-8') as f:
                 f.write(report)
         
+        # ⭐⭐⭐ Step 13: 腾讯文档生成（强制步骤）
+        # 注意：实际调用 tencent-docs skill 在 SKILL.md 的指令层执行
+        # 此处记录状态，供报告渲染时使用
+        if create_tencent_doc:
+            doc_title = self._get_doc_title(result)
+            print(f"\n📄 [Step 13] 腾讯文档生成待执行：")
+            print(f"   标题：{doc_title}")
+            print(f"   请使用 tencent-docs skill 创建文档。")
+            print(f"   示例调用：tencent-docs create --title \"{doc_title}\" --content <report>")
+        
         return report
+    
+    def _get_doc_title(self, result: Union[IndividualResult, OrganizationResult]) -> str:
+        """生成腾讯文档标题"""
+        from datetime import datetime
+        date_str = datetime.now().strftime('%Y%m%d')
+        if result.analysis_mode == "individual":
+            return f"访谈洞察报告-{result.employee_name}-{date_str}"
+        else:
+            return f"组织诊断报告-{result.organization}-{date_str}"
 
 
 def main():
